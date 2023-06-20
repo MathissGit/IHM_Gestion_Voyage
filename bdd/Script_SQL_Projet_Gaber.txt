@@ -1,0 +1,83 @@
+CREATE TABLE Circuit(
+   Id_Circuit INT AUTO_INCREMENT,
+   Descriptif VARCHAR(50) ,
+   VilleDepart VARCHAR(50) ,
+   VilleArrivee VARCHAR(50) ,
+   PaysDepart VARCHAR(50) ,
+   PaysArrivee VARCHAR(50) ,
+   DateDepart DATE,
+   Duree INT,
+   PrixInscription DECIMAL(15,2)  ,
+   PRIMARY KEY(Id_Circuit)
+);
+
+CREATE TABLE LieuxAvisiter(
+   NomLieu VARCHAR(50) ,
+   Ville VARCHAR(50) ,
+   Pays VARCHAR(50) ,
+   Descriptif VARCHAR(50) ,
+   PrixVisite INT,
+   PRIMARY KEY(NomLieu, Ville, Pays)
+);
+
+CREATE TABLE Role(
+   Id_Role INT AUTO_INCREMENT,
+   Designation VARCHAR(50) ,
+   PRIMARY KEY(Id_Role)
+);
+
+CREATE TABLE Etape(
+   Id_Etape INT AUTO_INCREMENT,
+   IdentifiantCircuit INT,
+   Ordre VARCHAR(50) ,
+   DateEtape DATE,
+   Duree INT,
+   NomLieu VARCHAR(50)  NOT NULL,
+   Ville VARCHAR(50)  NOT NULL,
+   Pays VARCHAR(50)  NOT NULL,
+   PRIMARY KEY(Id_Etape, IdentifiantCircuit, Ordre),
+   FOREIGN KEY(NomLieu, Ville, Pays) REFERENCES LieuxAvisiter(NomLieu, Ville, Pays)
+);
+
+CREATE TABLE Utilisateur(
+   Id_Utilisateur INT AUTO_INCREMENT,
+   login VARCHAR(50) ,
+   Mdp VARCHAR(50) ,
+   Id_Role INT NOT NULL,
+   PRIMARY KEY(Id_Utilisateur),
+   FOREIGN KEY(Id_Role) REFERENCES Role(Id_Role)
+);
+
+CREATE TABLE Client(
+   Id_Client INT AUTO_INCREMENT,
+   Nom VARCHAR(50) ,
+   Prenom VARCHAR(50) ,
+   DateNaissance DATE,
+   Telephone VARCHAR(50) ,
+   Mail VARCHAR(50) ,
+   Id_Utilisateur INT NOT NULL,
+   PRIMARY KEY(Id_Client),
+   UNIQUE(Id_Utilisateur),
+   FOREIGN KEY(Id_Utilisateur) REFERENCES Utilisateur(Id_Utilisateur)
+);
+
+CREATE TABLE Reservation(
+   Id_Reservation INT AUTO_INCREMENT,
+   DateReservation_ DATE,
+   NbPlaceReservee INT,
+   Id_Circuit INT NOT NULL,
+   Id_Client INT NOT NULL,
+   PRIMARY KEY(Id_Reservation),
+   FOREIGN KEY(Id_Circuit) REFERENCES Circuit(Id_Circuit),
+   FOREIGN KEY(Id_Client) REFERENCES Client(Id_Client)
+);
+
+CREATE TABLE Composer(
+   Id_Circuit INT,
+   Id_Etape INT,
+   IdentifiantCircuit INT,
+   Ordre VARCHAR(50) ,
+   PRIMARY KEY(Id_Circuit, Id_Etape, IdentifiantCircuit, Ordre),
+   FOREIGN KEY(Id_Circuit) REFERENCES Circuit(Id_Circuit),
+   FOREIGN KEY(Id_Etape, IdentifiantCircuit, Ordre) REFERENCES Etape(Id_Etape, IdentifiantCircuit, Ordre)
+);

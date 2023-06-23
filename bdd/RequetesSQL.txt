@@ -1,0 +1,17 @@
+
+	§ REQUETES BASE DE DONNEES §
+
+Écrire une requête permettant d'afficher pour le circuit 7, l'identifiant, descriptif, la ville de départ, la ville 
+d'arrivée ainsi que le nombre d'étapes du circuit :
+
+	- SELECT * FROM circuit WHERE Id_Circuit = "7" 
+
+Écrire une requête qui supprime un lieu s'il n'est pas visité (s'il n'est pas associé à une étape d'un circuit). 
+Le nom du lieu, de la ville et du pays sont données au lancement de la requête : 
+
+	- DELETE FROM lieuxavisiter WHERE NomLieu = "" AND Ville = "" AND Pays = "" AND NomLieu NOT IN (SELECT NomLieu FROM etape)
+
+Définir une requête affichant le prix d'un circuit touristique complet, c'est à dire le prix d'inscription du 
+circuit auquel on additionne le prix de la visite de chaque étape du circuit :
+
+	- 
